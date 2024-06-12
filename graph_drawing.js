@@ -1,8 +1,6 @@
 'use strict';
 export default class GraphDrawing {
 	
-	isXBetween
-	
 	constructor(canvas, graph, nodeRadius) {
 		this.canvas = canvas;
 		this.ctx = this.canvas.getContext('2d')
