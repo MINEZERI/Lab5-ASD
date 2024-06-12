@@ -8,7 +8,8 @@ export default class GraphManipulation {
 			this.adjacencyMatrix[i] = [];
 		}
 	}
-	
+
+	randm = generator => {
 	randm(generator) {
 		for (let i = 0; i < this.adjacencyMatrix.length; i++) {
 			for (let j = 0; j < this.adjacencyMatrix.length; j++) {
@@ -16,7 +17,8 @@ export default class GraphManipulation {
 			}
 		}
 	}
-	
+
+	mulmr = k => {
 	mulmr(k) {
 		for (let arr of this.adjacencyMatrix) {
 			for (let j = 0; j < arr.length; j++) {
@@ -24,7 +26,8 @@ export default class GraphManipulation {
 			}
 		}
 	}
-	
+
+	undirectMatrix = () => {
 	undirectMatrix() {
 		for (let i = 0; i < this.adjacencyMatrix.length; i++) {
 			for (let j = 0; j < this.adjacencyMatrix.length; j++) {
@@ -32,10 +35,11 @@ export default class GraphManipulation {
 			}
 		}
 	}
-	
+
+	calcNodesDegrees = () => {
 	calcNodesDegrees() {
 		let degreesList = [];
-		
+
 		for (let i = 0; i < this.adjacencyMatrix.length; i++) {
 			let degreesIn = 0;
 			let degreesOut = 0;
@@ -58,39 +62,43 @@ export default class GraphManipulation {
 		
 		return degreesList;
 	}
-	
+
+	isRegular = () => {
 	isRegular() {
 		const degreesList = this.calcNodesDegrees();
-		
+
 		for (let i = 1; i < degreesList.length; i++) {
 			if (degreesList[i].degreesSum !== degreesList[i - 1].degreesSum) return false;
 		}
 		
 		return degreesList.degreesSum[0];
 	}
-	
+
+	isolatedNodes = () => {
 	isolatedNodes() {
 		const degreesList = this.calcNodesDegrees();
 		let isolatedList = [];
-		
+
 		for (let i = 0; i < degreesList.length; i++) {
 			if (degreesList[i].degreesSum === 0) isolatedList.push(i + 1);
 		}
 		
 		return isolatedList;
 	}
-	
+
+	pendantNodes = () => {
 	pendantNodes() {
 		const degreesList = this.calcNodesDegrees();
 		let pendantList = [];
-		
+
 		for (let i = 0; i < degreesList.length; i++) {
 			if (degreesList[i].degreesSum === 1) pendantList.push(i + 1);
 		}
 		
 		return pendantList;
 	}
-	
+
+	multiplyMatrix = (matrix1, matrix2) => {
 	multiplyMatrix(matrix1, matrix2) {
 		const rows1 = matrix1.length;
 		const cols1 = matrix1[0].length;
@@ -111,17 +119,19 @@ export default class GraphManipulation {
 		
 		return multipliedMatrix;
 	}
-	
+
+	matrixPow = (matrix, n) => {
 	matrixPow(matrix, n) {
 		let poweredMatrix = matrix.map(row => [...row]);
-		
+
 		for (let i = 1; i < n; i++) {
 			poweredMatrix = this.multiplyMatrix(poweredMatrix, matrix);
 		}
 		
 		return poweredMatrix;
 	}
-	
+
+	getTransposedMatrix = (matrix) => {
 	getTransposedMatrix(matrix) {
 		const rows = matrix.length;
 		const cols = matrix[0].length;
@@ -133,13 +143,14 @@ export default class GraphManipulation {
 				transposedMatrix[i][j] = matrix[j][i];
 			}
 		}
-		
+
 		return transposedMatrix;
 	}
-	
+	getNextPaths = (paths) => {     // if needed A^length can check if there are paths from i to j
+
 	getNextPaths(paths) {     // if needed A^length can check if there are paths from i to j
 		const newPaths = [];
-		
+
 		for (let path of paths) {
 			const lastNode = path[path.length - 1];
 			for (let i = 0; i < this.adjacencyMatrix.length; i++) {
@@ -149,10 +160,11 @@ export default class GraphManipulation {
 		
 		return newPaths;
 	}
-	
+
+	getAllPaths = (pathLength) => {
 	getAllPaths(pathLength) {
 		const allPaths = [];
-		
+
 		for (let i = 0; i < this.adjacencyMatrix.length; i++) {
 			let currentPaths = [[i]];
 			for (let n = 1; n <= pathLength; n++) {
@@ -163,10 +175,11 @@ export default class GraphManipulation {
 		
 		return allPaths;
 	}
-	
+
+	getReachabilityMatrix = (maxLength) => {
 	getReachabilityMatrix(maxLength) {
 		length = this.adjacencyMatrix.length;
-		
+
 		const reachabilityMatrix = new Array(length);
 		for (let i = 0; i < length; i++) {                          //starts with identity matrix for paths of length 0
 			reachabilityMatrix[i] = new Array(length).fill(0);
@@ -184,11 +197,12 @@ export default class GraphManipulation {
 		
 		return reachabilityMatrix;
 	}
-	
+
+	getMatrixOfStrongConnection = (maxLength) => {
 	getMatrixOfStrongConnection(maxLength) {
 		const reachabilityMatrix = this.getReachabilityMatrix(maxLength);
 		const transposedReachabilityMatrix = this.getTransposedMatrix(reachabilityMatrix);
-		
+
 		for (let i = 0; i < reachabilityMatrix.length; i++) {
 			for (let j = 0; j < reachabilityMatrix[0].length; j++) {
 				reachabilityMatrix[i][j] *= transposedReachabilityMatrix[i][j];
@@ -197,7 +211,8 @@ export default class GraphManipulation {
 		
 		return reachabilityMatrix;
 	}
-	
+
+	makeAdjList = () => {
 	makeAdjList() {
 		const matrix = this.adjacencyMatrix;
 		const length = matrix.length;
@@ -214,7 +229,8 @@ export default class GraphManipulation {
 		}
 		return adjList;
 	}
-	
+
+	isReachable = (begin, target) => {
 	isReachable(begin, target) {
 		const adjacencyList = this.makeAdjList();
 		const visited = Array(adjacencyList.length).fill(0);
@@ -238,7 +254,8 @@ export default class GraphManipulation {
 		
 		return false;
 	}
-	
+
+	getSCCs = () => {
 	getSCCs() {
 		const length = this.adjacencyMatrix.length;
 		const result = [];
@@ -260,7 +277,8 @@ export default class GraphManipulation {
 		}
 		return result;
 	}
-	
+
+	getCondensationMatrix = () => {
 	getCondensationMatrix() {
 		const sccs = this.getSCCs();
 		const length = sccs.length;
@@ -280,7 +298,8 @@ export default class GraphManipulation {
 		
 		return condensationMatrix;
 	}
-	
+
+	dfs = (vertex) => {
 	dfs(vertex) {
 		const adjacencyList = this.makeAdjList();
 		const visited = new Array(adjacencyList.length).fill(false);
@@ -303,7 +322,8 @@ export default class GraphManipulation {
 		
 		return result;
 	}
-	
+
+	bfs = (vertex) => {
 	bfs(vertex) {
 		const adjacencyList = this.makeAdjList();
 		const visited = new Array(adjacencyList.length).fill(false);
@@ -323,39 +343,7 @@ export default class GraphManipulation {
 				}
 			}
 		}
-		
+
 		return result;
-	}
-	
-	getWeightMatrix(generator) {
-		const B = [];
-		const C = [];
-		const D = [];
-		const H = [];
-		const Tr = [];
-		const weightMatrix = [];
-		for (let i = 0; i < this.nodesNum; i++) {
-			B[i] = new Array(this.nodesNum).fill(0);
-			C[i] = new Array(this.nodesNum).fill(0);
-			D[i] = new Array(this.nodesNum).fill(0);
-			H[i] = new Array(this.nodesNum).fill(0);
-			Tr[i] = new Array(this.nodesNum).fill(0);
-			weightMatrix[i] = new Array(this.nodesNum).fill(0);
-			for (let j = 0; j < this.nodesNum; j++) {
-				B[i][j] = 2 * generator();
-				C[i][j] = Math.ceil(B[i][j] * 100 * this.adjacencyMatrix[i][j]);
-				D[i][j] = C[i][j] === 0 ? 0 : 1;
-				if (i < j) Tr[i][j] = 1;
-			}
-		}
-		
-		for (let i = 0; i < this.nodesNum; i++) {
-			for (let j = 0; j < this.nodesNum; j++) {
-				H[i][j] = D[i][j] !== D[j][i] ? 1 : 0;
-				weightMatrix[j][i] = weightMatrix[i][j] = (D[i][j] + H[i][j] * Tr[i][j]) * C[i][j];
-			}
-		}
-		
-		return weightMatrix;
 	}
 }
