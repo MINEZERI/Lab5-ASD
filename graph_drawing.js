@@ -9,7 +9,7 @@ export default class GraphDrawing {
 		this.nodesList = [];
 	}
 	
-	drawNode = (x, y, text = '') => {
+	drawNode(x, y, text = '') {
 		this.ctx.textAlign = 'center';
 		this.ctx.textBaseline = 'middle';
 		this.ctx.font = '20px Arial';
@@ -22,7 +22,7 @@ export default class GraphDrawing {
 		this.nodesList.push({x: x, y: y});
 	}
 	
-	drawFigure = (nodesNum) => {
+	drawFigure(nodesNum) {
 		const length = Math.round((nodesNum + 1) / 4);
 		const distance = this.canvas.height / (length + 1);
 		const path = distance * length;
@@ -55,7 +55,7 @@ export default class GraphDrawing {
 		this.drawNode(this.canvas.width / 2, this.canvas.height / 2, num);
 	}
 	
-	drawArrow = (x, y, angle, length) => {
+	drawArrow(x, y, angle, length) {
 		this.ctx.moveTo(x, y);
 		const angle1 = angle - Math.PI / 4;
 		const angle2 = angle + Math.PI / 4;
@@ -81,7 +81,7 @@ export default class GraphDrawing {
 		return false;
 	}
 	
-	drawLine = (startNode, endNode, i, j) => {
+	drawLine(startNode, endNode, i, j) {
 		const vectorX = endNode.x - startNode.x;
 		const vectorY = endNode.y - startNode.y;
 		const angle = Math.atan2(vectorY, vectorX);
@@ -135,7 +135,7 @@ export default class GraphDrawing {
 		this.ctx.closePath();
 	}
 	
-	drawLineBack = (node) => {
+	drawLineBack(node) {
 		const vectorX = node.x - window.innerWidth / 2;
 		const vectorY = node.y - window.innerHeight / 2;
 		const angle = Math.atan2(vectorY, vectorX);
@@ -161,12 +161,12 @@ export default class GraphDrawing {
 		this.ctx.closePath();
 	}
 	
-	decisionLine = (i, j) => {
+	decisionLine(i, j) {
 		if (i === j) this.drawLineBack(this.nodesList[i]);
 		else this.drawLine(this.nodesList[i], this.nodesList[j], i, j);
 	}
 	
-	drawGraph = (nodesNum) => {
+	drawGraph(nodesNum) {
 		this.drawFigure(nodesNum);
 		for (let i = 0; i < nodesNum; i++) {
 			let index = this.graph.isDirected ? nodesNum : i;
@@ -178,7 +178,7 @@ export default class GraphDrawing {
 		}
 	}
 	
-	drawStep = (node1, node2) => {
+	drawStep(node1, node2) {
 		const x1 = this.nodesList[node1].x;
 		const y1 = this.nodesList[node1].y;
 		const x2 = this.nodesList[node2].x;
